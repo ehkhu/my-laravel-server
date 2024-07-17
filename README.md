@@ -1,37 +1,80 @@
 Tasks : 
-API 
-USER Management
+-API 
+-USER Management 
 Repository Design Pattern
 CRUD Generate
-Auth System
+-Auth System
 API versions
-Security
+-Security
 Image Upload
 Searchable
 Data Optimize
-
-
 Matrix Data Generate
+
+Developer most user comand
+    To show list of table name in database, you can use the following code:
+    
+
+
 
 
 DEV
-composer require laravel/breeze --dev 
-php artisan breeze:install api
-//Requirement
-PHP 8.1 or above
-BCMath PHP Extension
-Ctype PHP Extension
-Exif PHP Extension
-JSON PHP Extension
-Mbstring PHP Extension
-OpenSSL PHP Extension
-PDO PHP Extension
-Tokenizer PHP Extension
-XML PHP Extension
-GD Library or ImageMagick
-Composer
+    composer require laravel/breeze --dev 
+    php artisan breeze:install api
+    composer require spatie/laravel-permission
 
-//Task
+    CRUD
+        Generate Controller
+        php artisan make:command MakeMyController #make a command and template
+        php artisan make:mycontroller Post --model=Post #make a controller
+
+        Gnenrate Model
+        php artisan make:command MakeMyModel #make a command and template
+        php artisan make:mymodel Post
+
+        Generate Repository Interface
+        php artisan make:command MakeMyRepositoryInterface
+        php artisan make:myrepositoryinterface Patient
+
+        Generate Repository
+        php artisan make:command MakeMyRepository
+        php artisan make:myrepository {Post}
+
+
+
+        CRUD command
+        php artisan make:mymodel {Post}
+        php artisan make:mycontroller {Post} --model={Post}
+        php artisan make:myrepositoryinterface {Post}
+        php artisan make:myrepository {Post}
+
+        Setup Servie Provider
+        php artisan make:provider RepositoryServiceProvider
+
+        boostart/provider.php # register at
+        ..
+        App\Providers\RepositoryServiceProvider::class,
+        ..
+
+
+
+
+
+Requirement
+    PHP 8.1 or above
+    BCMath PHP Extension
+    Ctype PHP Extension
+    Exif PHP Extension
+    JSON PHP Extension
+    Mbstring PHP Extension
+    OpenSSL PHP Extension
+    PDO PHP Extension
+    Tokenizer PHP Extension
+    XML PHP Extension
+    GD Library or ImageMagick
+    Composer
+
+Task
 user management (roles and permission)
     Role : super-admin, admin, user
     
@@ -78,3 +121,41 @@ user management (roles and permission)
     Configure forms	configure forms
     View form submissions	        view {form} submissions
     ↳ Delete form submissions	    delete {form} submissions
+
+ CRUD API genarator 
+    input model blue print 
+
+    Post
+    id      int
+    title   text
+    body    text
+    user_id int (relationship to User Model)
+    
+
+    Generator Output
+    validation
+    policy
+    migration file
+    model (with functions relationship, scopeFilter)
+    controller(CRUD)
+    repository
+    repository interface
+    response json
+    
+apply role and permission 
+    php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+    php artisan migrate
+    use use HasRoles; in User Model
+    php artisan make:seeder RolesAndPermissionsSeeder
+        create permissions and add to roles
+    php artisan db:seed --class=RolesAndPermissionsSeeder
+    php artisan make:middleware RoleMiddleware (add to server provider)
+    php artisan make:policy EntryPolicy
+
+    bootstrap/app.js
+    //role middleware
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+
+
+    
+    
